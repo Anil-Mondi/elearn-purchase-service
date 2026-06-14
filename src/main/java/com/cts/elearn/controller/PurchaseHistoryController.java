@@ -19,8 +19,14 @@ import com.cts.elearn.event.CoursePurchasedEvent;
 import com.cts.elearn.service.PurchaseHistoryService;
 
 @RestController
-@RequestMapping("/purchasehistory")
+@RequestMapping("/purchase-history")
 public class PurchaseHistoryController {
+
+    @GetMapping("/test")
+    public String test() {
+        return "Purchase Service Working";
+    }
+
 
     @Autowired
     private PurchaseHistoryService purchaseHistoryService;
@@ -32,20 +38,22 @@ public class PurchaseHistoryController {
     @PostMapping("/test-purchase")
     public String testPurchase() {
 
-        
-    	CoursePurchasedEvent event =
-    		    CoursePurchasedEvent.of(
-    		        1L,     // learnerId
-    		        101L,   // courseId
-    		        1L      // serviceId
-    		    );
+        if(kafkaTemplate == null){
+            return "Kafka disabled";
+        }
+
+        CoursePurchasedEvent event =
+                CoursePurchasedEvent.of(
+                        1L,
+                        101L,
+                        1L
+                );
 
         kafkaTemplate.send(
-        	    "course.purchased",
-        	    event.getLearnerId().toString(),
-        	    event
-        	);
-
+                "course.purchased",
+                event.getLearnerId().toString(),
+                event
+        );
 
         return "Test purchase event sent";
     }

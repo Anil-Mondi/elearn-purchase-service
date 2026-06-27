@@ -7,8 +7,16 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PurchaseHistoryRepository extends JpaRepository<PurchaseHistory, Long> {
-    List<PurchaseHistory> findByLearnerId(Long learnerId); // Fetch purchases by learner
+public interface PurchaseHistoryRepository
+        extends JpaRepository<PurchaseHistory, Long> {
+
+    List<PurchaseHistory> findByLearnerId(Long learnerId);
+
     boolean existsByEventId(String eventId);
+
+    boolean existsByLearnerIdAndCourseId(
+            Long learnerId,
+            Long courseId
+    );
 
 }

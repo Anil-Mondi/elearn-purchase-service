@@ -61,7 +61,19 @@ public class PurchaseHistoryController {
 
     @PostMapping
     public PurchaseHistory addPurchase(@RequestBody PurchaseHistory purchaseHistory) {
-        return purchaseHistoryService.create(purchaseHistory);
+
+        try {
+
+            return purchaseHistoryService.create(purchaseHistory);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();   // <-- This will print the real exception
+
+            throw e;
+
+        }
+
     }
 
     @GetMapping

@@ -15,8 +15,7 @@ public class PurchaseHistoryService {
     @Autowired
     private PurchaseHistoryRepository purchaseHistoryRepository;
 
-    public PurchaseHistory create(
-            PurchaseHistory purchaseHistory) {
+    public PurchaseHistory create(PurchaseHistory purchaseHistory) {
 
         boolean alreadyPurchased =
                 purchaseHistoryRepository
@@ -24,15 +23,17 @@ public class PurchaseHistoryService {
                                 purchaseHistory.getLearnerId(),
                                 purchaseHistory.getCourseId());
 
-        if(alreadyPurchased){
+        if (alreadyPurchased) {
 
-            throw new RuntimeException(
-                    "Course already purchased");
+            throw new RuntimeException("Course already purchased");
 
         }
 
-        return purchaseHistoryRepository.save(
-                purchaseHistory);
+        purchaseHistory.setEventId(
+                java.util.UUID.randomUUID().toString()
+        );
+
+        return purchaseHistoryRepository.save(purchaseHistory);
 
     }
 

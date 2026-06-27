@@ -2,6 +2,7 @@ package com.cts.elearn.service;
 
 import com.cts.elearn.dao.PurchaseHistoryRepository;
 import com.cts.elearn.entity.PurchaseHistory;
+import com.cts.elearn.exception.DuplicatePurchaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +26,9 @@ public class PurchaseHistoryService {
 
         if (alreadyPurchased) {
 
-            throw new RuntimeException("Course already purchased");
+            throw new DuplicatePurchaseException(
+                    "Course already purchased"
+            );
 
         }
 
